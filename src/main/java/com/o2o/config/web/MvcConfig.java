@@ -11,11 +11,15 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.google.code.kaptcha.servlet.KaptchaServlet;
+import com.o2o.interceptor.shopadmin.ShopLoginInterceptor;
+import com.o2o.interceptor.shopadmin.ShopPermissionInterceptor;
 
 /**
  * 启Mvc,自动注入spring容器。 WebMvcConfigurerAdapter：配置视图解析器
@@ -46,12 +50,12 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// <mvc:resources mapping="/resources/**" location="/resources/" />
-		//弃用
-		//registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
-		
-		//替代tomcat中servicedocBase配置
+		// 弃用
+		// registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
+
+		// 替代tomcat中servicedocBase配置
 		registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/image/upload/");
-		
+
 	}
 
 	/**
@@ -62,10 +66,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		// <mvc:default-servlet-handler />
 		configurer.enable();
 	}
-	
-	
+
 	/**
 	 * 创建viewResolver
+	 * 
 	 * @return
 	 */
 	@Bean(name = "viewResolver")
@@ -79,10 +83,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		viewResolver.setPrefix("/WEB-INF/html/");
 		// 设置试图解析的后缀
 		viewResolver.setSuffix(".html");
-		
+
 		return viewResolver;
 	}
-	
+
 	/**
 	 * 文件上传解析器
 	 * 
@@ -97,9 +101,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		multipartResolver.setMaxInMemorySize(20971520);
 		return multipartResolver;
 	}
-	
-	//kaptcha配置
-	
+
+	// kaptcha配置
+
 	@Value("${kaptcha.border}")
 	private String border;
 
@@ -126,7 +130,7 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 
 	@Value("${kaptcha.textproducer.font.names}")
 	private String fnames;
-	
+
 	/**
 	 * 由于web.xml不生效了，需要在这里配置Kaptcha验证码Servlet
 	 */
@@ -143,6 +147,35 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		servlet.addInitParameter("kaptcha.textproducer.char.length", clength);// 字符个数
 		servlet.addInitParameter("kaptcha.textproducer.font.names", fnames);// 字体
 		return servlet;
+	}
+
+	/**
+	 * 添加拦截器配置
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		String interceptPath = "/shopadmin/**";
+		// 注册拦截器
+		InterceptorRegistration loginIR = registry.addInterceptor(new ShopLoginInterceptor());
+		// 配置拦截的路径
+		loginIR.addPathPatterns(interceptPath);
+
+		InterceptorRegistration permissionIR = registry.addInterceptor(new ShopPermissionInterceptor());
+		permissionIR.addPathPatterns(interceptPath);
+
+		// 配置不拦截的路径
+		/** shoplist page **/
+		permissionIR.excludePathPatterns("/shopadmin/shoplist");
+		permissionIR.excludePathPatterns("/shopadmin/getshoplist");
+		/** shopregister page **/
+		permissionIR.excludePathPatterns("/shopadmin/getshopinitinfo");
+		permissionIR.excludePathPatterns("/shopadmin/registershop");
+		permissionIR.excludePathPatterns("/shopadmin/shopoperation");
+		/** shopmanage page **/
+		permissionIR.excludePathPatterns("/shopadmin/shopmanagement");
+		permissionIR.excludePathPatterns("/shopadmin/getshopmanagementinfo");
+
+		super.addInterceptors(registry);
 	}
 
 }
