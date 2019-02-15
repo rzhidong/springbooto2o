@@ -1,0 +1,1 @@
+1、去掉spring、mybatis，迁移pom
