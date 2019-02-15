@@ -4,3 +4,4 @@
 4. 配置web,迁移web
 5. 前端迁移，修改静态文件addResourceHandlers配置
 6. 验证码迁移(由于web.xml不生效了，需要在MvcConfig配置Kaptcha验证码[ServletServletRegistrationBean])
+7. 替代docBase配置显示图片(addResourceHandlers)

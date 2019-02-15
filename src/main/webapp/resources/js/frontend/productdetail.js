@@ -12,7 +12,7 @@ $(function() {
 			// 给商品信息相关HTML控件赋值
 
 			// 商品缩略图
-			$('#product-img').attr('src', product.imgAddr);
+			$('#product-img').attr('src', getContextPath() + product.imgAddr);
 			// 商品更新时间
 			$('#product-time').text(
 					new Date(product.lastEditTime).Format("yyyy-MM-dd"));
@@ -24,8 +24,7 @@ $(function() {
 			// 商品简介
 			$('#product-desc').text(product.productDesc);
 			// 商品价格展示逻辑，主要判断原价现价是否为空 ，所有都为空则不显示价格栏目
-			if (product.normalPrice != ""
-					&& product.promotionPrice != "") {
+			if (product.normalPrice != "" && product.promotionPrice != "") {
 				// 如果现价和原价都不为空则都展示，并且给原价加个删除符号
 				$('#price').show();
 				$('#normalPrice').html(
@@ -44,8 +43,8 @@ $(function() {
 			var imgListHtml = '';
 			// 遍历商品详情图列表，并生成批量img标签
 			product.productImgList.map(function(item, index) {
-				imgListHtml += '<div> <img src="' + item.imgAddr
-						+ '" width="100%" /></div>';
+				imgListHtml += '<div> <img src="' + getContextPath()
+						+ item.imgAddr + '" width="100%" /></div>';
 			});
 			// if (data.needQRCode) {
 			// // 生成购买商品的二维码供商家扫描

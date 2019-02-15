@@ -48,6 +48,10 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		// <mvc:resources mapping="/resources/**" location="/resources/" />
 		//弃用
 		//registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
+		
+		//替代tomcat中servicedocBase配置
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/image/upload/");
+		
 	}
 
 	/**

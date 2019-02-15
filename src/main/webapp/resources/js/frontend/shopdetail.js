@@ -31,7 +31,8 @@ $(function() {
 						function(data) {
 							if (data.success) {
 								var shop = data.shop;
-								$('#shop-cover-pic').attr('src', shop.shopImg);
+								$('#shop-cover-pic').attr('src',
+										getContextPath() + shop.shopImg);
 								$('#shop-update-time').html(
 										new Date(shop.lastEditTime)
 												.Format("yyyy-MM-dd"));
@@ -85,8 +86,8 @@ $(function() {
 							+ '<div class="list-block media-list">' + '<ul>'
 							+ '<li class="item-content">'
 							+ '<div class="item-media">' + '<img src="'
-							+ item.imgAddr + '" width="44">' + '</div>'
-							+ '<div class="item-inner">'
+							+ getContextPath() + item.imgAddr + '" width="44">'
+							+ '</div>' + '<div class="item-inner">'
 							+ '<div class="item-subtitle">' + item.productDesc
 							+ '</div>' + '</div>' + '</li>' + '</ul>'
 							+ '</div>' + '</div>' + '<div class="card-footer">'
