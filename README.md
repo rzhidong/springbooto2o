@@ -6,3 +6,4 @@
 6. 验证码迁移(由于web.xml不生效了，需要在MvcConfig配置Kaptcha验证码[ServletServletRegistrationBean])
 7. 替代docBase配置显示图片(addResourceHandlers)
 8. 配置拦截器，迁移interceptor
+9. PathUtil改进(@Configuration,@Value("${win.base.path}"))
