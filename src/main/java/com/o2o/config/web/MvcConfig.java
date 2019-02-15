@@ -42,7 +42,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		// <mvc:resources mapping="/resources/**" location="/resources/" />
-		registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
+		//弃用
+		//registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
 	}
 
 	/**
