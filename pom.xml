@@ -11,7 +11,8 @@
 	</parent>
 	<groupId>com</groupId>
 	<artifactId>o2o</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>2.0</version>
+	<packaging>war</packaging>
 	<name>o2o</name>
 	<description>Demo project for Spring Boot</description>
 

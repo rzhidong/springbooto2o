@@ -18,8 +18,11 @@ import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 
 public class ImageUtil {
-
-	private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+	
+	private static String watermarkFilePath = (PathUtil.getImgBasePath()+"/watermark.jpg").replace("/", System.getProperty("file.separator"));
+	
+	private static String basePath = PathUtil.getImgBasePath();
+	//private static String basePath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 	private static final SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	private static final Random random = new Random();
 	private static Logger logger = LoggerFactory.getLogger(ImageUtil.class);
@@ -104,11 +107,11 @@ public class ImageUtil {
 		// 获取文件要保存到的目标路径
 		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
 		logger.debug("current complete addr is :" + PathUtil.getImgBasePath() + relativeAddr);
-		logger.debug("watermark location: " + basePath + "watermark.jpg");
+		logger.debug("watermark location: " + watermarkFilePath);
 		// 调用Thumbnails生成带有水印的图片
 		try {
 			Thumbnails.of(thumbnail.getImageInputStream()).size(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT)
-					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "watermark.jpg")), 0.25f)
+					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(watermarkFilePath)), 0.25f)
 					.outputQuality(THUMBNAIL_QUALITY).toFile(dest);
 		} catch (Exception e) {
 			logger.error(e.toString());
@@ -137,11 +140,11 @@ public class ImageUtil {
 		// 获取文件要保存到的目标路径
 		File dest = new File(PathUtil.getImgBasePath() + relativeAddr);
 		logger.debug("current complete addr is :" + PathUtil.getImgBasePath() + relativeAddr);
-		logger.debug("watermark location: " + basePath + "watermark.jpg");
+		logger.debug("watermark location: " + watermarkFilePath);
 		// 调用Thumbnails生成带有水印的图片
 		try {
 			Thumbnails.of(thumbnail.getImageInputStream()).size(NORMAL_WIDTH, NORMAL_HEIGHT)
-					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(basePath + "watermark.jpg")), 0.25f)
+					.watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(watermarkFilePath)), 0.25f)
 					.outputQuality(NORMAL_QUALITY).toFile(dest);
 		} catch (Exception e) {
 			logger.error(e.toString());

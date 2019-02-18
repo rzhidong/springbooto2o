@@ -20,6 +20,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import com.google.code.kaptcha.servlet.KaptchaServlet;
 import com.o2o.interceptor.shopadmin.ShopLoginInterceptor;
 import com.o2o.interceptor.shopadmin.ShopPermissionInterceptor;
+import com.o2o.util.PathUtil;
 
 /**
  * 启Mvc,自动注入spring容器。 WebMvcConfigurerAdapter：配置视图解析器
@@ -54,7 +55,9 @@ public class MvcConfig extends WebMvcConfigurerAdapter implements ApplicationCon
 		// registry.addResourceHandler("/resources/**").addResourceLocations("classpath:/resources/");
 
 		// 替代tomcat中servicedocBase配置
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/image/upload/");
+		//registry.addResourceHandler("/upload/**").addResourceLocations("file:D:/image/upload/");
+		//registry.addResourceHandler("/upload/**").addResourceLocations("file:/opt/image/upload/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:"+PathUtil.getImgBasePath()+"/upload/");
 
 	}
 
